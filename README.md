@@ -8,7 +8,7 @@ RPSliderController is a UIViewController container that allows one UIViewControl
 Requirements
 ============
 
-RPSlideController currently works on iOS 6 version and is compatible with ARC. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+RPSliderController currently works on iOS 6 version and is compatible with ARC. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * QuartzCore.framework
 
@@ -29,7 +29,7 @@ The simplest way to add the RPSliderController to your project is to directly ad
 Usage
 =====
 
-The only thing you need to do to work with RPSlideController is to sub-class it:
+The only thing you need to do to work with RPSliderController is to sub-class it:
 
 ```objective-c
 #import "RPSliderViewController.h"
