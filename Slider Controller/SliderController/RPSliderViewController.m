@@ -275,13 +275,10 @@
         CGPoint possibleNewLocation = possibleNewRect.origin;
         
         double movementSensibility = previousLocation.x - gestureLocation.x;
-        NSLog(@"Sensi%f",movementSensibility);
 
         // First check if the gesture was fast. If it was we will just scroll to the side the gesture was
         if(ABS(movementSensibility) >= MOVEMENT_SENSIBILITY)
         {
-            NSLog(@"É só força");
-
             // Ok it was fast enough, check if it was to the right or to the left
             double finalPosition = movementSensibility<0.0f?MAX_VISIBLE_SIDE + BOUNCE_DISTANCE:0.0f - BOUNCE_DISTANCE;
             [gestureRecognizer setEnabled:NO];
@@ -291,7 +288,6 @@
                 [_slideController.view setFrame:CGRectMake(finalPosition, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
             } completion:^(BOOL finished)
              {
-                 NSLog(@"End of Só Força");
                  // Cancel the remaining gestures
                  [gestureRecognizer setEnabled:YES];
                  [self flexingAnimation];
@@ -309,9 +305,7 @@
 }
 
 - (void) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer endWithTouches:(NSSet*)touches andEvent:(UIEvent *)event
-{
-    NSLog(@"End");
-    
+{    
     if (![gestureRecognizer isEnabled])
     {
         // If the gesture is disabled we won't do anything
