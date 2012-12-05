@@ -56,7 +56,6 @@ Known Issues
 
 - If the Slider's UIViewController contains a UIView that responds to gestures (UIScrollView or UITableView) in some cases, there might be issues with the final position of the Slider
 - It's expected that the user does a complete gesture in order for the Slider to pass from the left to the right side (and vice versa). In YouTube iOS's Application for instance, the user doesn't need to do that, only a small gesture is enough for the Slider to travel from left to right (and vice versa)
--------
 
 -------
 RoadMap
