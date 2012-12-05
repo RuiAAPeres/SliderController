@@ -294,7 +294,7 @@
             }];
         }
         
-        // Just gurantee that the new location will not be less than zero
+        // Just guarantee that the new location will not be less than zero
         if (possibleNewLocation.x > 0 && ABS(movementSensibility) < MOVEMENT_SENSIBILITY)
         {
             CGRect sliderFrame = _slideController.view.frame;
