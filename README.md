@@ -61,10 +61,10 @@ Known Issues
 RoadMap
 =======
 
-- Fix the Known Issues in an elegant way. :)
+- Fix the Known Issues in an elegant way :)
 - Add more control over the Slider
-=======
 
+-------
 License
 =======
 
