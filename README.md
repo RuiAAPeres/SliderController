@@ -21,7 +21,7 @@ Source files
 
 The simplest way to add the RPSliderController to your project is to directly add the `RPSliderViewController.h` and `RPSliderViewController.m` source files to your project.
 
-1. Download the [latest code version](https://github.com/RuiAAPeres/SliderController) or add the repository as a git submodule to your git-tracked project. 
+1. Download the [latest code version](https://github.com/ruiaaperes/SliderController/downloads) or add the repository as a git submodule to your git-tracked project. 
 2. Open your project in Xcode, than drag and drop `RPSliderViewController.h` and `RPSliderViewController.m` onto your project (use the "Product Navigator view"). Make sure to select Copy items when asked if you extracted the code archive outside of your project. 
 3. Include RPSliderViewController wherever you need it with `#import "RPSliderViewController.h"`.
 
@@ -85,22 +85,22 @@ This code is distributed under the terms and conditions of the MIT license.
 ----------
 Change-log
 ==========
-**Version 1.4* @ 13.4.12
+**Version 1.4** @ 13.4.12
 
 - The class that sub-classes the RPSliderController is now able to receive callbacks about the state of the Slider's UIViewController
 
-**Version 1.3* @ 13.4.12
+**Version 1.3** @ 13.4.12
 
 - Fixed: It's expected that the user does a complete gesture in order for the Slider to pass from the left to the right side (and vice versa). In YouTube iOS's Application for instance, the user doesn't need to do that, only a small gesture is enough for the Slider to travel from left to right (and vice versa)
 
-**Version 1.2* @ 13.4.12
+**Version 1.2** @ 13.4.12
 
 - Fixed a bug that would allow several UIViewController's to be considered as the Slider's ViewController (we should allow only one)
 
-**Version 1.1* @ 12.4.12
+**Version 1.1** @ 12.4.12
 
 - Updated the README.md file
 
-**Version 1.0* @ 12.4.12
+**Version 1.0** @ 12.4.12
 
 - First version
