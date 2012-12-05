@@ -39,6 +39,8 @@
 #define ANIMATION_LIMIT 160.0f
 // A distance to get the UIView out of the screen
 #define BYE_BYE_X 500.0f
+// The sensibility of the movement when we make a gesture
+#define MOVEMENT_SENSIBILITY 20.0f
 
 /**
  Subclass of the Gesture Recognizer so we are able to get the touches out
@@ -104,6 +106,12 @@
  */
 - (void)basicInitForSlidderViewController;
 
+/**
+ The animation performed when we release the slider UIViewController
+ @return void
+ */
+- (void)flexingAnimation;
+
 @end
 
 @implementation RPSliderViewController
@@ -141,6 +149,35 @@
 }
 
 #pragma mark - Private Methods (UI)
+
+- (void)flexingAnimation
+{
+    double initialPositionX = 0.0f;
+    double finalPositionX = 0.0f;
+    
+    if (_slideController.view.frame.origin.x > ANIMATION_LIMIT)
+    {
+        double bounceValue = _slideController.view.frame.origin.x < MAX_VISIBLE_SIDE?BOUNCE_DISTANCE:-BOUNCE_DISTANCE;
+        initialPositionX = MAX_VISIBLE_SIDE + bounceValue;
+        finalPositionX = MAX_VISIBLE_SIDE;
+    }
+    else
+    {
+        initialPositionX = -BOUNCE_DISTANCE;
+        finalPositionX = 0.0f;
+    }
+    
+    // Start the animation to the maximun point
+    [UIView animateWithDuration:0.2 animations:^{
+        [_slideController.view setFrame:CGRectMake(initialPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
+    } completion:^(BOOL finished) {
+        // Get back to the original position
+        [UIView animateWithDuration:0.2 animations:^{
+            [_slideController.view setFrame:CGRectMake(finalPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
+        }];
+    }];
+}
+
 
 - (void)basicInitForSlidderViewController
 {
@@ -189,7 +226,7 @@
         // Make the current slider get out of the view
         [UIView animateWithDuration:0.3 animations:^{
             [_slideController.view setFrame:CGRectMake(BYE_BYE_X, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
-
+            
         } completion:^(BOOL finished) {
             
             // Finally remove it
@@ -237,8 +274,32 @@
         
         CGPoint possibleNewLocation = possibleNewRect.origin;
         
+        double movementSensibility = previousLocation.x - gestureLocation.x;
+        NSLog(@"Sensi%f",movementSensibility);
+
+        // First check if the gesture was fast. If it was we will just scroll to the side the gesture was
+        if(ABS(movementSensibility) >= MOVEMENT_SENSIBILITY)
+        {
+            NSLog(@"É só força");
+
+            // Ok it was fast enough, check if it was to the right or to the left
+            double finalPosition = movementSensibility<0.0f?MAX_VISIBLE_SIDE + BOUNCE_DISTANCE:0.0f - BOUNCE_DISTANCE;
+            [gestureRecognizer setEnabled:NO];
+            
+            // Animate to it
+            [UIView animateWithDuration:.2f animations:^{
+                [_slideController.view setFrame:CGRectMake(finalPosition, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
+            } completion:^(BOOL finished)
+             {
+                 NSLog(@"End of Só Força");
+                 // Cancel the remaining gestures
+                 [gestureRecognizer setEnabled:YES];
+                 [self flexingAnimation];
+            }];
+        }
+        
         // Just gurantee that the new location will not be less than zero
-        if ((possibleNewLocation.x > 0))
+        if (possibleNewLocation.x > 0 && ABS(movementSensibility) < MOVEMENT_SENSIBILITY)
         {
             CGRect sliderFrame = _slideController.view.frame;
             
@@ -249,30 +310,15 @@
 
 - (void) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer endWithTouches:(NSSet*)touches andEvent:(UIEvent *)event
 {
-    double initialPositionX = 0.0f;
-    double finalPositionX = 0.0f;
+    NSLog(@"End");
     
-    if (_slideController.view.frame.origin.x > ANIMATION_LIMIT)
+    if (![gestureRecognizer isEnabled])
     {
-        double bounceValue = _slideController.view.frame.origin.x < MAX_VISIBLE_SIDE?BOUNCE_DISTANCE:-BOUNCE_DISTANCE;
-        initialPositionX = MAX_VISIBLE_SIDE + bounceValue;
-        finalPositionX = MAX_VISIBLE_SIDE;
+        // If the gesture is disabled we won't do anything
+        return;
     }
-    else
-    {
-        initialPositionX = _slideController.view.frame.origin.x == 0?0.0f:-BOUNCE_DISTANCE;
-        finalPositionX = 0.0f;
-    }
-    
-    // Start the animation to the maximun point
-    [UIView animateWithDuration:0.3 animations:^{
-        [_slideController.view setFrame:CGRectMake(initialPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
-    } completion:^(BOOL finished) {
-        // Get back to the original position
-        [UIView animateWithDuration:0.3 animations:^{
-            [_slideController.view setFrame:CGRectMake(finalPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
-        }];
-    }];
+
+    [self flexingAnimation];
 }
 
 @end
