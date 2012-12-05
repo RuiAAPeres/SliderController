@@ -165,13 +165,13 @@
 - (void)replaceSliderWithViewController:(UIViewController *)newSliderViewController
 {
     // check if we are replacing a view
-    if(isReplacingView)
+    if(isReplacingSlider)
     {
         // We will stop here if we are replacing a view
         return;
     }
     
-    isReplacingView = YES;
+    isReplacingSlider = YES;
     
     // Add the new slider as a child
     [self addChildViewController:newSliderViewController];
@@ -212,7 +212,7 @@
                 } completion:^(BOOL finished) {
                     // Notify self that the newSlider is in position
                     [newSliderViewController didMoveToParentViewController:self];
-                    isReplacingView = NO;
+                    isReplacingSlider = NO;
                 }];
             }];
         }];

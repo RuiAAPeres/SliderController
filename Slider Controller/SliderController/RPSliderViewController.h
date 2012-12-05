@@ -56,7 +56,7 @@
 @interface RPSliderViewController : UIViewController <RPCustomGestureRecognizerDelegate>
 {
     @private
-    BOOL isReplacingView;
+    BOOL isReplacingSlider;
 }
 
 /**
