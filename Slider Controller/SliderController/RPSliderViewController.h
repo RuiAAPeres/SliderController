@@ -54,6 +54,10 @@
  This UIViewController should be sub-classed in order to be used
  */
 @interface RPSliderViewController : UIViewController <RPCustomGestureRecognizerDelegate>
+{
+    @private
+    BOOL isReplacingView;
+}
 
 /**
  Basic init of the UIViewController with an extra parameter that will be

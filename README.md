@@ -60,6 +60,10 @@ This code is distributed under the terms and conditions of the MIT license.
 Change-log
 ==========
 
+**Version 1.2* @ 13.4.12
+
+- Fixed a bug that would allow several UIViewController's to be considered as the Slider's ViewController (we should allow only one)
+
 **Version 1.1* @ 12.4.12
 
 - Updated the README.md file
