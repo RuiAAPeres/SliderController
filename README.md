@@ -8,7 +8,7 @@ RPSliderController is a UIViewController container that allows one UIViewControl
 Requirements
 ============
 
-RPSliderController currently works on iOS 6 version and is compatible with ARC. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
+RPSliderController currently works on iOS 6 version and is compatible with ARC. **At the moment I am only supporting Portrait mode**. It depends on the following Apple frameworks, which should already be included with most Xcode templates:
 
 * QuartzCore.framework
 
@@ -62,6 +62,7 @@ RoadMap
 
 - Fix the Known Issues in an elegant way :)
 - Add more control over the Slider
+- Support Landscape mode (if there is someone requesting this feature)
 
 -------
 License
