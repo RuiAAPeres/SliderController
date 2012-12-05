@@ -55,4 +55,16 @@
     [self replaceSliderWithViewController:detailViewController];
 }
 
+#pragma mark - RPSlidderController Overriden Implementaton
+
+-(void)currentSliderHasBeenRemoved
+{
+    // NSLog(@"Current slider Has Been Removed");
+}
+
+-(void)newSliderHasBeenAdded
+{
+    // NSLog(@"New slider Has Been Added");
+}
+
 @end

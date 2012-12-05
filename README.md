@@ -49,6 +49,18 @@ For the moment the only thing you can do with it is to change the UIViewControll
 UIViewController *newDetailViewController = [[UIViewController alloc] initWithNibName:nil bundle:nil];
 [self replaceSliderWithViewController:newDetailViewController];
 ```
+You can also override the following methods to receive callbacks when the you are about to switch the Slider ViewController
+```objective-c
+-(void)currentSliderHasBeenRemoved
+{
+    // NSLog(@"Current slider Has Been Removed");
+}
+
+-(void)newSliderHasBeenAdded
+{
+    // NSLog(@"New slider Has Been Added");
+}
+```
 
 -------
 Known Issues
@@ -73,6 +85,9 @@ This code is distributed under the terms and conditions of the MIT license.
 ----------
 Change-log
 ==========
+**Version 1.4* @ 13.4.12
+
+- The class that sub-classes the RPSliderController is now able to receive callbacks about the state of the Slider's UIViewController
 
 **Version 1.3* @ 13.4.12
 

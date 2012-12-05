@@ -112,6 +112,19 @@
  */
 - (void)flexingAnimation;
 
+/**
+ Informs the delegate that the current slider has been removed
+ @return void
+ */
+- (void)currentSliderHasBeenRemoved;
+
+/**
+ Informs the delegate that the slidding animating is finished
+ and the new Slider is in position
+ @return void
+ */
+- (void)newSliderHasBeenAdded;
+
 @end
 
 @implementation RPSliderViewController
@@ -131,7 +144,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // Create a scope to  better organize the code visually (odd habits)
 	{
         // Inform self that we just added the sliderController
@@ -146,6 +159,18 @@
         
         [self basicInitForSlidderViewController];
     }
+}
+
+#pragma mark - Slidding Animation Callouts
+
+- (void)currentSliderHasBeenRemoved
+{
+    // To be sub-classed
+}
+
+- (void)newSliderHasBeenAdded
+{
+    // To be sub-classed
 }
 
 #pragma mark - Private Methods (UI)
@@ -207,7 +232,7 @@
         // We will stop here if we are replacing a view
         return;
     }
-    
+    // Flag that we are we going to start to the replace the Slider
     isReplacingSlider = YES;
     
     // Add the new slider as a child
@@ -232,6 +257,9 @@
             // Finally remove it
             [_slideController removeFromParentViewController];
             
+            // Inform self that the current Slider has been removed
+            [self currentSliderHasBeenRemoved];
+            
             // Set the new _slider
             _slideController = newSliderViewController;
             
@@ -249,7 +277,13 @@
                 } completion:^(BOOL finished) {
                     // Notify self that the newSlider is in position
                     [newSliderViewController didMoveToParentViewController:self];
+                    
+                    // Flag that we are not replacing the slider
                     isReplacingSlider = NO;
+                    
+                    // Inform self that the new Slider has been added
+                    [self newSliderHasBeenAdded];
+
                 }];
             }];
         }];
