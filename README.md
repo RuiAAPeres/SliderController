@@ -85,22 +85,28 @@ This code is distributed under the terms and conditions of the MIT license.
 ----------
 Change-log
 ==========
-**Version 1.4** @ 13.4.12
+
+**Version 1.5** @ 6.12.12
+ - Performance improvement related to the Shadow effect
+ - The user to be able to Slide must touch in the left side of the Slider's UIViewController. This helps to avoid unwanted slide while the user is working in the Slider UIViewController
+ - Softer transitions.
+
+**Version 1.4** @ 5.12.12
 
 - The class that sub-classes the RPSliderController is now able to receive callbacks about the state of the Slider's UIViewController
 
-**Version 1.3** @ 13.4.12
+**Version 1.3** @ 5.12.12
 
 - Fixed: It's expected that the user does a complete gesture in order for the Slider to pass from the left to the right side (and vice versa). In YouTube iOS's Application for instance, the user doesn't need to do that, only a small gesture is enough for the Slider to travel from left to right (and vice versa)
 
-**Version 1.2** @ 13.4.12
+**Version 1.2** @ 5.12.12
 
 - Fixed a bug that would allow several UIViewController's to be considered as the Slider's ViewController (we should allow only one)
 
-**Version 1.1** @ 12.4.12
+**Version 1.1** @ 4.12.12
 
 - Updated the README.md file
 
-**Version 1.0** @ 12.4.12
+**Version 1.0** @ 4.12.12
 
 - First version

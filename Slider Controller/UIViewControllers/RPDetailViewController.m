@@ -8,6 +8,8 @@
 
 #import "RPDetailViewController.h"
 
+#define CELL_IDENTIFIER @"cellIdentifier"
+
 @interface RPDetailViewController ()
 
 /**
@@ -49,6 +51,27 @@
     CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;  //  0.5 to 1.0, away from white
     CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+}
+
+#pragma mark - UITableViewDataSource Implementation
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CELL_IDENTIFIER];
+    
+    if (!cell)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CELL_IDENTIFIER];
+    }
+    
+    [[cell textLabel] setText:[NSString stringWithFormat:@"%d",[indexPath row] + 1]];
+    
+    return cell;
 }
 
 @end

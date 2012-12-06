@@ -41,6 +41,8 @@
 #define BYE_BYE_X 500.0f
 // The sensibility of the movement when we make a gesture
 #define MOVEMENT_SENSIBILITY 20.0f
+// The maximun X location when we have the Slidder Filling the screen and we want to slide it
+#define MINIMUM_X 60.0f
 
 /**
  Subclass of the Gesture Recognizer so we are able to get the touches out
@@ -188,16 +190,16 @@
     }
     else
     {
-        initialPositionX = -BOUNCE_DISTANCE;
+        initialPositionX = _slideController.view.frame.origin.x == 0.0f?0.0f:-BOUNCE_DISTANCE;
         finalPositionX = 0.0f;
     }
     
     // Start the animation to the maximun point
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         [_slideController.view setFrame:CGRectMake(initialPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
     } completion:^(BOOL finished) {
         // Get back to the original position
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:0.3 animations:^{
             [_slideController.view setFrame:CGRectMake(finalPositionX, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
         }];
     }];
@@ -212,6 +214,8 @@
     // Set the delegate as self
     [gesture setDelegate:self];
     
+    [gesture setMaximumNumberOfTouches:2];
+    
     // Add the Gesture to the _slideController
     [[_slideController view] addGestureRecognizer:gesture];
     
@@ -219,6 +223,9 @@
     _slideController.view.layer.shadowOffset = CGSizeMake(-15, 0);
     _slideController.view.layer.shadowRadius = 5;
     _slideController.view.layer.shadowOpacity = 0.7;
+    
+    _slideController.view.layer.shadowPath = [UIBezierPath bezierPathWithRect:_slideController.view.bounds].CGPath;
+
 }
 
 
@@ -249,7 +256,7 @@
         [_slideController.view setFrame:CGRectMake(MAX_VISIBLE_SIDE - BOUNCE_DISTANCE, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
     } completion:^(BOOL finished) {
         // Make the current slider get out of the view
-        [UIView animateWithDuration:0.3 animations:^{
+        [UIView animateWithDuration:0.4 animations:^{
             [_slideController.view setFrame:CGRectMake(BYE_BYE_X, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
             
         } completion:^(BOOL finished) {
@@ -292,6 +299,30 @@
 
 #pragma mark - RPCustomGestureRecognizerDelegate Implementation
 
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    // We return YES. This is for cases when the Slider has UIView's like UITableView and UIScrollView where different
+    // Gestures should be recognized
+    return YES;
+}
+
+
+- (void)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer beganWithTouches:(NSSet*)touches andEvent:(UIEvent *)event
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStatePossible)
+    {
+        // Based on the touches we can calculate what's the next position
+        UITouch *aTouch = [touches anyObject];
+        CGPoint gestureLocation = [aTouch locationInView:_slideController.view];
+
+        if (gestureLocation.x > MINIMUM_X)
+        {
+            [gestureRecognizer ignoreTouch:aTouch forEvent:event];
+        }
+    }
+}
+
+
 - (void) gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer movedWithTouches:(NSSet*)touches andEvent:(UIEvent *)event
 {
     if (gestureRecognizer.state == UIGestureRecognizerStatePossible)
@@ -318,7 +349,7 @@
             [gestureRecognizer setEnabled:NO];
             
             // Animate to it
-            [UIView animateWithDuration:.2f animations:^{
+            [UIView animateWithDuration:.3f animations:^{
                 [_slideController.view setFrame:CGRectMake(finalPosition, 0.0f, _slideController.view.frame.size.width, _slideController.view.frame.size.height)];
             } completion:^(BOOL finished)
              {
